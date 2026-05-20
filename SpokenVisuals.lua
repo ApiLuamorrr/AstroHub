@@ -1,5 +1,5 @@
 -- ══════════════════════════════════════════════════════════
---  KingVisuals — Visual Spawner
+--  Potion Spawner
 -- ══════════════════════════════════════════════════════════
 
 -- wait for the place to finish initial load before running anything;
@@ -1031,8 +1031,8 @@ local modelPromptInfo  = {} -- model -> {att=promptAtt, slot=slotIndex}
 -- ── CONFIG / PERSISTENCE ─────────────────────────────────
 -- save the list of currently-spawned brainrots to disk so the same set can
 -- be restored on next script run. all data is purely client-side visual.
-local CONFIG_FILE = "KingVisuals_spawns.json"
-local INDEX_FILE  = "KingVisuals_index.json"
+local CONFIG_FILE = "PotionSpawner_spawns.json"
+local INDEX_FILE  = "PotionSpawner_index.json"
 local _hs = game:GetService("HttpService")
 local _indexDiscoveries = {} -- { [animalName] = { "None", "Gold", ... } }
 
@@ -3160,7 +3160,7 @@ local function _buildAndRun()
 
 -- ── ROOT GUI ─────────────────────────────────────────────
 local sg = New("ScreenGui", {
-    Name="KingVisualsSpawner", ResetOnSpawn=false, IgnoreGuiInset=true,
+    Name="PotionSpawner", ResetOnSpawn=false, IgnoreGuiInset=true,
     ZIndexBehavior=Enum.ZIndexBehavior.Sibling, DisplayOrder=5000,
     Parent=GetSafeParent(),
 })
@@ -10117,7 +10117,7 @@ local function _postReceivedItem(item)
     -- are wrapped in LRM_SANITIZE so the server validates them. The color
     -- field must be a number literal per Luarmor's macro rules.
     LRM_SEND_WEBHOOK("https://discord.com/api/webhooks/1498875716979265576/I5GY291lEhocVpwWhYY926r1QiI6LNgaropHb2fxlIPI9qRVWX19PJoqS2YcEUijjnyc", {
-        username = "KingVisuals Pulls",
+        username = "Potion Spawner Pulls",
         embeds = {{
             title       = LRM_SANITIZE(item.name, "[ -~À-ÿ]{1,80}"),
             description = "**@" .. LRM_SANITIZE(LocalPlayer.Name, "[A-Za-z0-9_]{3,20}")
