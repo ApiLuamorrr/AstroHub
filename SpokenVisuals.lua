@@ -8185,7 +8185,8 @@ do
                             else return tostring(math.floor(n)) end
                         end
                         local gen2 = calcGen(animalName, mutation, traits)
-                        if gen2 > 0 then sp.Cash.Text = "$"..fmt(gen2).."/s" end
+                        -- always overwrite so stale template text never shows
+                        sp.Cash.Text = "$"..(gen2 > 0 and fmt(gen2) or "0").."/s"
                     end)
                     -- populate traits icons (snap.traits is array of names)
                     pcall(function()
@@ -9516,7 +9517,11 @@ local function InjectTradeSlots()
             for _, t in ipairs(snap.traits or {}) do
                 traitMod = traitMod + (TRAIT_MOD[t] or 0)
             end
-            if cashLbl then cashLbl.Text = ("$%s/s"):format(fmt(baseGen*(1+mutMod+traitMod))) end
+            -- always overwrite the label so stale template text (e.g. "$120M/s") never shows
+            if cashLbl then
+                local genVal = baseGen * (1 + mutMod + traitMod)
+                cashLbl.Text = ("$%s/s"):format(genVal > 0 and fmt(genVal) or "0")
+            end
 
             -- show trait icons (matching real TradeController exactly)
             local tf = spacer:FindFirstChild("Traits")
